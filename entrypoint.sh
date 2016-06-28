@@ -14,6 +14,8 @@ setup_environment_variables() {
     DB_HOST=${DB_HOST:-db}
     DB_PORT=${DB_PORT:-5432}
 
+    LOGIN_REQUIRED=${LOGIN_REQUIRED:-False}
+
     : "${SECRET_KEY:?SECRET_KEY needs to be set}"
 }
 
@@ -41,7 +43,10 @@ initialize_config() {
     sed -i "/# Database port/c\\    'PORT': '$DB_PORT'," configuration.py
 
     # Update secret key
-    sed -i "/SECRET_KEY = '/c\\SECRET_KEY = '$SECRET_KEY'" configuration.py
+    sed -i "/^SECRET_KEY = '/c\\SECRET_KEY = '$SECRET_KEY'" configuration.py
+
+    # Login required
+    sed -i "/^LOGIN_REQUIRED = /c\\LOGIN_REQUIRED = $LOGIN_REQUIRED" configuration.py
 
     popd 2>&1 > /dev/null
 }

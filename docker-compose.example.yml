@@ -11,6 +11,8 @@ services:
         image: pitkley/netbox
         depends_on:
             - db
+        ports:
+            - "8000:8000"
         environment:
             - "ALLOWED_HOSTS=netbox.dev localhost"
             - "DB_HOST=db"
