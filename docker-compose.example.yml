@@ -9,6 +9,8 @@ services:
 
     netbox:
         image: pitkley/netbox
+        depends_on:
+            - db
         environment:
             - "ALLOWED_HOSTS=netbox.dev localhost"
             - "DB_HOST=db"
