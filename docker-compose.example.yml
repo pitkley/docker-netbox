@@ -4,10 +4,10 @@ services:
     db:
         image: postgres:9.5
         environment:
-          - "POSTGRES_USER=$DB_USER"
-          - "POSTGRES_PASSWORD=$DB_PASS"
+            - "POSTGRES_USER=$DB_USER"
+            - "POSTGRES_PASSWORD=$DB_PASS"
         env_file:
-          - .env
+            - .env
 
     app:
         image: pitkley/netbox
@@ -16,5 +16,5 @@ services:
         ports:
             - "8000:8000"
         env_file:
-          - .env
-          - .env.app
+            - .env
+            - .env.app
