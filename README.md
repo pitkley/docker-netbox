@@ -22,12 +22,12 @@ Docker image for [NetBox][gh-nb].
 
     ```
     SECRET_KEY=CHANGE_ME
-    ALLOWED_HOSTS=['netbox.dev', 'localhost'] #Specify each host that should have access here, * allows everyone.
+    ALLOWED_HOSTS=['netbox.dev', 'localhost']
     ```
 
 4. Change settings specifically for this instance:
 
-    * `ALLOWED_HOSTS`: accepts multiple hostnames separated using spaces
+    * `ALLOWED_HOSTS`: accepts multiple hostnames separated using spaces, you should add the hostname which the installation will be reached at
     * `SECRET_KEY`: required, should be randomly generated and [50 characters or more][gh-nb-secret-key]
 
     Optionally you can also change the database password by modifying `POSTGRES_PASSWORD` and `DB_PASS`.
