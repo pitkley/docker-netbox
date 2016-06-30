@@ -4,20 +4,17 @@ services:
     db:
         image: postgres:9.5
         environment:
-            - POSTGRES_USER=netbox
-            - POSTGRES_PASSWORD=netbox
+          - "POSTGRES_USER=$DB_USER"
+          - "POSTGRES_PASSWORD=$DB_PASS"
+        env_file:
+          - .env
 
-    netbox:
+    app:
         image: pitkley/netbox
         depends_on:
             - db
         ports:
             - "8000:8000"
-        environment:
-            - "ALLOWED_HOSTS=netbox.dev localhost"
-            - "DB_HOST=db"
-            - "DB_NAME=netbox"
-            - "DB_USER=netbox"
-            - "DB_PASS=netbox"
-            - "SECRET_KEY=" # change me
-
+        env_file:
+          - .env
+          - .env.app
