@@ -2,22 +2,25 @@ version: '2'
 
 services:
     db:
-        image: postgres:9.5
+        image: postgres:9.6-alpine
         environment:
             - POSTGRES_USER=netbox
             - POSTGRES_PASSWORD=netbox
 
     netbox:
-        image: pitkley/netbox
+        image: pitkley/netbox:2.2-dev
         depends_on:
             - db
         ports:
-            - "8000:8000"
+            - "80:8000"
         environment:
-            - "ALLOWED_HOSTS=netbox.dev localhost"
+            - "ALLOWED_HOSTS=localhost"
             - "DB_HOST=db"
             - "DB_NAME=netbox"
             - "DB_USER=netbox"
             - "DB_PASS=netbox"
+            - "DEBUG=False"
             - "SECRET_KEY=" # change me
+        volumes:
+            - ./entrypoint.sh:/sbin/entrypoint.sh
 
