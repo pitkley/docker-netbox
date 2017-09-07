@@ -48,6 +48,8 @@ initialize_config() {
     # Login required
     sed -i "/^LOGIN_REQUIRED = /c\\LOGIN_REQUIRED = $LOGIN_REQUIRED" configuration.py
 
+    sed -i "s/^DEBUG = False/DEBUG = $DEBUG/" configuration.py
+
     popd 2>&1 > /dev/null
 }
 
