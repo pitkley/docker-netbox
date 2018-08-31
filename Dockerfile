@@ -1,5 +1,4 @@
-FROM python:2.7
-MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
+FROM python:3
 
 # Install dependencies
 RUN apt-get update \
