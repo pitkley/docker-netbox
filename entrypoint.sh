@@ -36,7 +36,7 @@ initialize_config() {
     sed -i "/^ALLOWED_HOSTS =/c\\ALLOWED_HOSTS = [$allowed_hosts ]" configuration.py
 
     # Update DB configuration
-    sed -i "/# PostgreSQL username/c\\    'NAME': '$DB_NAME'," configuration.py
+    sed -i "/# Database name/c\\    'NAME': '$DB_NAME'," configuration.py
     sed -i "/# PostgreSQL username/c\\    'USER': '$DB_USER'," configuration.py
     sed -i "/# PostgreSQL password/c\\    'PASSWORD': '$DB_PASS'," configuration.py
     sed -i "/# Database server/c\\    'HOST': '$DB_HOST'," configuration.py
