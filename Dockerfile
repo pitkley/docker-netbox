@@ -1,5 +1,4 @@
-FROM python:2.7
-MAINTAINER Pit Kleyersburg <pitkley@googlemail.com>
+FROM python:3
 
 # Install dependencies
 RUN apt-get update \
@@ -9,7 +8,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and install netbox
-ENV NETBOX_COMMIT tags/v1.0.4
+ENV NETBOX_COMMIT tags/v2.4.4
 RUN mkdir -p /usr/src/netbox \
     && git clone https://github.com/digitalocean/netbox.git /usr/src/netbox \
     && (cd /usr/src/netbox && git checkout -q "$NETBOX_COMMIT") \
