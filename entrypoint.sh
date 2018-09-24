@@ -51,7 +51,7 @@ initialize_config() {
     sed -i "/^LOGIN_REQUIRED = /c\\LOGIN_REQUIRED = $LOGIN_REQUIRED" configuration.py
 
     # Base path
-    sed -i "/^BASE_PATH = /c\\BASE_PATH = $BASE_PATH" configuration.py
+    sed -i "/^BASE_PATH = /c\\BASE_PATH = '$BASE_PATH'" configuration.py
 
     popd 2>&1 > /dev/null
 }
