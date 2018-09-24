@@ -27,6 +27,9 @@ Docker image for [NetBox][gh-nb].
 
 NetBox will be available under port 8000.
 
+## Additional configuration
+
+* `BASE_PATH`: set this if netbox is running behind a reverse proxy and you need the URL to be rewritten, for example if you want to reach your netbox via example.com/netbox/, set BASE_PATH='netbox/'
 
 [gh-nb]: https://github.com/digitalocean/netbox
 [gh-nb-secret-key]: https://github.com/digitalocean/netbox/blob/8563e2aca30fd160b62bbf1f734b2b3b0cf24cfe/docs/configuration.md#secret_key
