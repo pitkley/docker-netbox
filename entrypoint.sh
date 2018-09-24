@@ -16,6 +16,8 @@ setup_environment_variables() {
 
     LOGIN_REQUIRED=${LOGIN_REQUIRED:-False}
 
+    BASE_PATH=${BASE_PATH:-''}
+
     : "${SECRET_KEY:?SECRET_KEY needs to be set}"
 }
 
@@ -47,6 +49,9 @@ initialize_config() {
 
     # Login required
     sed -i "/^LOGIN_REQUIRED = /c\\LOGIN_REQUIRED = $LOGIN_REQUIRED" configuration.py
+
+    # Base path
+    sed -i "/^BASE_PATH = /c\\BASE_PATH = '$BASE_PATH'" configuration.py
 
     popd 2>&1 > /dev/null
 }
