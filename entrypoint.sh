@@ -17,6 +17,9 @@ setup_environment_variables() {
     LOGIN_REQUIRED=${LOGIN_REQUIRED:-False}
 
     BASE_PATH=${BASE_PATH:-''}
+    
+    NAPALM_USERNAME=${NAPALM_USERNAME:-''}
+    NAPALM_PASSWORD=${NAPALM_PASSWORD:-''}
 
     : "${SECRET_KEY:?SECRET_KEY needs to be set}"
 }
@@ -53,6 +56,9 @@ initialize_config() {
     # Base path
     sed -i "/^BASE_PATH = /c\\BASE_PATH = '$BASE_PATH'" configuration.py
 
+    # NAPALM Support
+    sed -i "/^NAPALM_USERNAME = /c\\NAPALM_USERNAME = '$NAPALM_USERNAME'" configuration.py
+    sed -i "/^NAPALM_PASSWORD = /c\\NAPALM_PASSWORD = '$NAPALM_PASSWORD'" configuration.py
     popd 2>&1 > /dev/null
 }
 
