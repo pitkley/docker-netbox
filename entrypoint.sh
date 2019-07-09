@@ -17,6 +17,7 @@ setup_environment_variables() {
     LOGIN_REQUIRED=${LOGIN_REQUIRED:-False}
 
     BASE_PATH=${BASE_PATH:-''}
+    METRICS_ENABLED=${METRICS_ENABLED:-False}
 
     : "${SECRET_KEY:?SECRET_KEY needs to be set}"
 }
@@ -52,6 +53,9 @@ initialize_config() {
 
     # Base path
     sed -i "/^BASE_PATH = /c\\BASE_PATH = '$BASE_PATH'" configuration.py
+
+    # Metrics enabled
+    sed -i "/^METRICS_ENABLED = /c\\METRICS_ENABLED = '$METRICS_ENABLED'" configuration.py
 
     popd 2>&1 > /dev/null
 }
