@@ -8,7 +8,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and install netbox
-ENV NETBOX_COMMIT 0e49a7a1fd9af5866e131755288bca7b24865766
+ENV NETBOX_COMMIT a504f5f309dfae02ce567c233fb3daf28b457b4d
 RUN mkdir -p /usr/src/netbox \
     && git clone https://github.com/digitalocean/netbox.git /usr/src/netbox \
     && (cd /usr/src/netbox && git checkout -q "$NETBOX_COMMIT") \
