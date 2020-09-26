@@ -30,4 +30,4 @@ RUN chmod 755 /sbin/entrypoint.sh
 EXPOSE 8000/tcp
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
-CMD ["runserver", "--insecure", "0.0.0.0:8000"]
+CMD ["runserver", "--noreload", "--insecure", "0.0.0.0:8000"]
