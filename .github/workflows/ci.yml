@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:alpine
+        ports:
+        - 5432/tcp
+        env:
+          POSTGRES_USER: netbox
+          POSTGRES_PASSWORD: netbox
+          POSTGRES_DB: netbox
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: docker build
+      id: docker_build
+      uses: docker/build-push-action@v2
+    - name: Start netbox
+      id: start_netbox
+      run: |
+        container_name="netbox-$GITHUB_RUN_ID"
+        docker run \
+          --detach \
+          --name "$container_name" \
+          --publish-all \
+          -it \
+          --network "${{ job.services.postgres.network }}" \
+          -e "SECRET_KEY=not_secret" \
+          -e "ALLOWED_HOSTS=*" \
+          -e "DB_HOST=postgres" \
+            ${{ steps.docker_build.outputs.digest }}
+        echo "::set-output name=container_name::${container_name}"
+    - name: Verify netbox is up and running
+      run: |
+        published_port="$(docker port "${{ steps.start_netbox.outputs.container_name }}" 8000 | cut -d':' -f2)"
+        for i in {1..15}; do
+          exit_code=0
+          return_code="$(\
+            curl \
+              --retry 10 \
+              --retry-delay 10 \
+              --retry-connrefused \
+              --silent \
+              --output /dev/null \
+              --write-out "%{http_code}" \
+                "http://127.0.0.1:$published_port" \
+          )" || exit_code=$?
+
+          case "$exit_code" in
+            52) # Empty reply from server
+              sleep 10
+              continue;;
+            56) # Failure in receiving network data, e.g. "Connection reset by peer"
+              sleep 10
+              continue;;
+            *)
+              break;;
+          esac
+        done
+        if [ "$exit_code" -ne "0" ]; then
+          exit "$exit_code"
+        fi
+        if [ "$return_code" != "200" ]; then
+          docker logs "${{ steps.start_netbox.outputs.container_name }}"
+          echo "::error ::Netbox did not return status code 200 (it returned '${return_code}')"
+          exit 1
+        fi
+    - name: Cleanup started container
+      if: ${{ always() }}
+      run: |
+        docker container rm -f "${{ steps.start_netbox.outputs.container_name }}" || :
