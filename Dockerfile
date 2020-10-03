@@ -7,12 +7,11 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone and install netbox
-ENV NETBOX_COMMIT d8cb58c74653da88d9aade40548b146a9311f5e6
-RUN mkdir -p /usr/src/netbox \
-    && git clone https://github.com/digitalocean/netbox.git /usr/src/netbox \
-    && (cd /usr/src/netbox && git checkout -q "$NETBOX_COMMIT") \
-    && (cd /usr/src/netbox && pip install --no-cache-dir -r requirements.txt)
+# Install netbox from local checkout
+RUN mkdir -p /usr/src/netbox
+COPY netbox/ /usr/src/netbox/
+RUN cd /usr/src/netbox \
+    && pip install --no-cache-dir -r requirements.txt
 
 # Change workdir
 WORKDIR /usr/src/netbox/netbox
