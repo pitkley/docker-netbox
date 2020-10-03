@@ -8,7 +8,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 # Clone and install netbox
-ENV NETBOX_COMMIT 010765e1319001899c9d26d9c8cfe9fd52273634
+ENV NETBOX_COMMIT d8cb58c74653da88d9aade40548b146a9311f5e6
 RUN mkdir -p /usr/src/netbox \
     && git clone https://github.com/digitalocean/netbox.git /usr/src/netbox \
     && (cd /usr/src/netbox && git checkout -q "$NETBOX_COMMIT") \
@@ -30,4 +30,4 @@ RUN chmod 755 /sbin/entrypoint.sh
 EXPOSE 8000/tcp
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
-CMD ["runserver", "--insecure", "0.0.0.0:8000"]
+CMD ["runserver", "--noreload", "--insecure", "0.0.0.0:8000"]
