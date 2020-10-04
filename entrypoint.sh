@@ -18,6 +18,8 @@ setup_environment_variables() {
 
     BASE_PATH=${BASE_PATH:-''}
     
+    METRICS_ENABLED=${METRICS_ENABLED:-False}
+
     NAPALM_USERNAME=${NAPALM_USERNAME:-''}
     NAPALM_PASSWORD=${NAPALM_PASSWORD:-''}
 
@@ -56,9 +58,13 @@ initialize_config() {
     # Base path
     sed -i "/^BASE_PATH = /c\\BASE_PATH = '$BASE_PATH'" configuration.py
 
+    # Metrics enabled
+    sed -i "/^METRICS_ENABLED = /c\\METRICS_ENABLED = '$METRICS_ENABLED'" configuration.py
+
     # NAPALM Support
     sed -i "/^NAPALM_USERNAME = /c\\NAPALM_USERNAME = '$NAPALM_USERNAME'" configuration.py
     sed -i "/^NAPALM_PASSWORD = /c\\NAPALM_PASSWORD = '$NAPALM_PASSWORD'" configuration.py
+
     popd 2>&1 > /dev/null
 }
 

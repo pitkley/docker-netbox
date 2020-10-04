@@ -8,13 +8,12 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Clone and install netbox
-ENV NETBOX_COMMIT 3366a6ae3d420365a5b0b9dd93df6d56125e1d05
-RUN mkdir -p /usr/src/netbox \
-    && git clone https://github.com/digitalocean/netbox.git /usr/src/netbox \
-    && (cd /usr/src/netbox && git checkout -q "$NETBOX_COMMIT") \
-    && (cd /usr/src/netbox && pip install --no-cache-dir -r requirements.txt) \
-    && (pip install --no-cache-dir django-auth-ldap napalm)
+# Install netbox from local checkout
+RUN mkdir -p /usr/src/netbox
+COPY netbox/ /usr/src/netbox/
+RUN cd /usr/src/netbox \
+    && pip install --no-cache-dir -r requirements.txt \
+    && pip install --no-cache-dir django-auth-ldap napalm
 
 # Change workdir
 WORKDIR /usr/src/netbox/netbox
@@ -32,4 +31,4 @@ RUN chmod 755 /sbin/entrypoint.sh
 EXPOSE 8000/tcp
 
 ENTRYPOINT ["/sbin/entrypoint.sh"]
-CMD ["runserver", "--insecure", "0.0.0.0:8000"]
+CMD ["runserver", "--noreload", "--insecure", "0.0.0.0:8000"]
