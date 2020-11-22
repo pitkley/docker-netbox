@@ -1,5 +1,8 @@
 {
   "enabledManagers": ["git-submodules"],
+  "git-submodules": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "managers": ["git-submodules"],
