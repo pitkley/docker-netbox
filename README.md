@@ -2,6 +2,9 @@
 
 Docker image for [NetBox][gh-nb].
 
+![maintenance-status](https://img.shields.io/badge/maintenance-as--is-yellow.svg)
+
+<sub>There are no plans for new features, issues that get filed are responded to on a best-effort basis.</sub>
 
 ## Using docker-compose
 
