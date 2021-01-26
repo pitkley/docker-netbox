@@ -18,6 +18,7 @@ setup_environment_variables() {
 
     BASE_PATH=${BASE_PATH:-''}
     METRICS_ENABLED=${METRICS_ENABLED:-False}
+    TIME_ZONE=${TIME_ZONE:-UTC}
 
     : "${SECRET_KEY:?SECRET_KEY needs to be set}"
 }
@@ -56,6 +57,9 @@ initialize_config() {
 
     # Metrics enabled
     sed -i "/^METRICS_ENABLED = /c\\METRICS_ENABLED = '$METRICS_ENABLED'" configuration.py
+    
+    # Set timezone
+    sed -i "/^TIME_ZONE = /c\\TIME_ZONE = '$TIME_ZONE'" configuration.py
 
     popd 2>&1 > /dev/null
 }
