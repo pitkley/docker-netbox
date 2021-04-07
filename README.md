@@ -8,10 +8,29 @@ Docker image for [NetBox][gh-nb].
 
 ## Using docker-compose
 
-1. Create a copy of [`docker-compose.example.yml`](docker-compose.example.yml)
-2. Adapt at least the following environment variables:
+1. Create a copy of [`docker-compose.example.yml`](docker-compose.example.yml) to [`docker-compose.prod.yml`](docker-compose.prod.yml)
+2. Create .env containing:
 
-    * `ALLOWED_HOSTS`: accepts multiple hostnames separated using spaces
+    ```
+    COMPOSE_FILE=docker-compose.prod.yml
+    
+    #TZ= #Set me to your timezone i.e. Europe/Stockholm
+    DB_HOST=db
+    DB_NAME=netbox
+    DB_USER=netbox
+    DB_PASS=netbox
+    ```
+
+3. Create .env.app containing:
+
+    ```
+    SECRET_KEY=CHANGE_ME
+    ALLOWED_HOSTS=['netbox.dev', 'localhost']
+    ```
+
+4. Change settings specifically for this instance:
+
+    * `ALLOWED_HOSTS`: accepts multiple hostnames separated using spaces, you should add the hostname which the installation will be reached at
     * `SECRET_KEY`: required, should be randomly generated and [50 characters or more][gh-nb-secret-key]
 
     Optionally you can also change the database password by modifying `POSTGRES_PASSWORD` and `DB_PASS`.
