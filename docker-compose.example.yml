@@ -8,7 +8,7 @@ services:
             - POSTGRES_PASSWORD=netbox
 
     netbox:
-        image: pitkley/netbox
+        image: pitkley/netbox:latest # OR ghcr.io/pitkley/netbox:latest
         depends_on:
             - db
         ports:
