@@ -86,3 +86,46 @@ jobs:
       if: ${{ always() }}
       run: |
         docker container rm -f "${{ steps.start_netbox.outputs.container_name }}" || :
+
+  push:
+    if: github.ref == 'refs/heads/master'
+    runs-on: ubuntu-latest
+
+    needs:
+    - build-and-test
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+
+    - name: Prepare Docker image metadata
+      id: meta
+      uses: docker/metadata-action@v3
+      with:
+        images: |
+          pitkley/netbox
+          ghcr.io/pitkley/netbox
+        tags: |
+          latest
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_ACCESSTOKEN }}
+    - name: Login to ghcr.io
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.repository_owner }}
+        password: ${{ github.token }}
+
+    - name: Build and push Docker image
+      uses: docker/build-push-action@v2
+      with:
+        context: .
+        push: true
+        tags: ${{ steps.meta.outputs.tags }}
+        labels: ${{ steps.meta.outputs.labels }}
